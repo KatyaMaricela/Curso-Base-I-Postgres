@@ -1,0 +1,66 @@
+--CREAR LA TABLA ESTUDIANTE
+CREATE TABLE Estudiante
+(
+	CI		INTEGER PRIMARY KEY NOT NULL,
+	Nombre	VARCHAR(40),
+	Apellidos	VARCHAR(60),
+	FechaNac	DATE,
+	Direccion	VARCHAR(60),
+	Genero		VARCHAR(1)
+);
+
+--CREAR LA TABLA MATERIAS
+CREATE TABLE Materias
+(
+	sigla			VARCHAR(10)	PRIMARY KEY NOT NULL,
+	descripcion		VARCHAR(70),
+	semestre		INTEGER,
+	carrera			VARCHAR(60)
+);
+
+--CREAR LA TABLA NOTAS
+CREATE TABLE Notas
+(
+	CI		INTEGER,
+	sigla	VARCHAR(10),
+	gestion	VARCHAR(10),
+	parcial1	INTEGER,
+	parcial2	INTEGER,
+	ExFinal		INTEGER,
+	
+	PRIMARY KEY (CI,sigla,gestion),
+	FOREIGN KEY (CI) REFERENCES Estudiante,
+	FOREIGN KEY	(sigla)	REFERENCES Materias
+);
+
+--CREAR LA TABLA DOCENTES
+CREATE TABLE Docentes
+(
+	codDocente	INTEGER PRIMARY KEY NOT NULL,
+	nombre		VARCHAR(100),
+	especialidad	VARCHAR(60),
+	genero		VARCHAR(1)
+);
+
+--CREAR TABLA DICTA
+CREATE TABLE Dicta
+(
+	codHorario	INTEGER PRIMARY KEY NOT NULL,
+	sigla		VARCHAR(10),
+	codDocente	INTEGER,
+	paralelo	VARCHAR(10),
+	gestión		VARCHAR(10),
+	FOREIGN KEY (sigla) REFERENCES Materias,
+	FOREIGN KEY (codDocente)REFERENCES Docentes
+);
+
+
+--CREAR TABLA INSCRITO
+CREATE TABLE Inscrito
+(
+	CI  INTEGER,
+	codHorario 	INTEGER,
+	
+	FOREIGN KEY(CI) REFERENCES Estudiante,
+	FOREIGN KEY (codHorario) REFERENCES Dicta
+);
